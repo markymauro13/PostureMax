@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct PostureMaxAppApp: App {
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if hasSeenOnboarding {
+                MainAppView()
+            } else {
+                OnboardingView()
+            }
         }
     }
 }
