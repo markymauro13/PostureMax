@@ -27,10 +27,64 @@ struct Theme {
             cornerRadius: 10
         )
     }
+    
+    // Custom Toolbar Item
+    static func customToolbarTitle(_ title: String, color: Color = textColor, spacing: CGFloat = 75) -> ToolbarItem<Void, some View> {
+        ToolbarItem(placement: .navigationBarLeading) {
+            VStack {
+                Spacer().frame(height: spacing) // Vertical spacing
+                Text(title)
+                    .font(.largeTitle) // Match default navigation title size
+                    .fontWeight(.bold) // Match default style
+                    .foregroundColor(color) // Use custom or default color
+            }
+        }
+    }
+
+    struct NavigationBarModifier: ViewModifier {
+        var backgroundColor: Color
+        var titleColor: Color
+        
+        init(backgroundColor: Color = Theme.backgroundColor, titleColor: Color = Theme.textColor) {
+            self.backgroundColor = backgroundColor
+            self.titleColor = titleColor
+            
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor(backgroundColor)
+            appearance.largeTitleTextAttributes = [
+                .foregroundColor: UIColor(titleColor)
+            ]
+            appearance.titleTextAttributes = [
+                .foregroundColor: UIColor(titleColor)
+            ]
+            
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().compactAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
+        
+        func body(content: Content) -> some View {
+            content
+        }
+    }
 }
 
 struct ButtonStyle {
     let foregroundColor: Color
     let backgroundColor: Color
     let cornerRadius: CGFloat
+}
+
+// Add a convenient extension to View
+extension View {
+    func navigationBarStyle(
+        backgroundColor: Color = Theme.backgroundColor,
+        titleColor: Color = Theme.textColor
+    ) -> some View {
+        self.modifier(Theme.NavigationBarModifier(
+            backgroundColor: backgroundColor,
+            titleColor: titleColor
+        ))
+    }
 }

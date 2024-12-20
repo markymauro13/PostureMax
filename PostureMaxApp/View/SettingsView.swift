@@ -40,6 +40,7 @@ struct SettingsView: View {
                     }
                     .listRowBackground(Theme.backgroundColor)
                 }
+                .padding()
                 .listStyle(InsetGroupedListStyle())
                 .scrollContentBackground(.hidden) // Hide default List background
                 .background(Theme.backgroundColor) // Apply background to List

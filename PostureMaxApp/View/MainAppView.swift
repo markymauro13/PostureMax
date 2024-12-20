@@ -3,6 +3,18 @@ import SwiftUI
 struct MainAppView: View {
     @State private var selectedTab = 0
 
+    init() {
+        // Customize unselected tab items to be white
+        UITabBar.appearance().unselectedItemTintColor = .white
+        // Optional: Make tab bar background darker
+        UITabBar.appearance().backgroundColor = UIColor(Theme.backgroundColor)
+        // Set border color
+        UITabBar.appearance().standardAppearance.shadowColor = UIColor(Theme.accentColor) // or any color you want
+        // If you want to remove the border completely, use:
+        // UITabBar.appearance().standardAppearance.shadowImage = UIImage()
+        // UITabBar.appearance().standardAppearance.shadowColor = nil
+    }
+
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeTabView()
@@ -32,6 +44,7 @@ struct MainAppView: View {
         }
         .accentColor(Theme.accentColor)
         .background(Color.clear)
+        .navigationBarStyle()
     }
 }
 
